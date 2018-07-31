@@ -94,38 +94,45 @@ app.put('/todos/:id', function(req, res) {
   }
 });
 
-app.patch('/todos?id', function(req, res) {
-  const idMap = todos.reduce((acc, todo) => ({
-    ...acc,
-    [todo.id]: todo
-  }), {});
-  const patchObj = req.body.data;
-  let notFound = false;
-  req.query.id.forEach((idString, index) => {
-    const id = Number.parseInt(idString, 10);
-    const todo = idMap[id];
-    if (index === 0) {
-      notFound = !todo;
-    } else {
-      notFound = notFound && !todo;
-    }
-    if (todo) {
-      Object.keys(patchObj).forEach(key => {
-        if (key !== 'id') {
-          todo[key] = patchObj[key];
-        }
-      });
-    }
-  });
+app.patch('/todos', function(req, res) {
   let status;
-  let message;
-  if (notFound) {
-    status = 404;
-    message = 'Not found'
+  let body = {};
+  if (req.query.id == null) {
+    status = 400;
+    body.message = 'Bad request';
   } else {
-    status = 204;
+    const idMap = todos.reduce((acc, todo) => ({
+      ...acc,
+      [todo.id]: todo
+    }), {});
+    const patchObj = req.body.data;
+    let notFound = false;
+    const ids = [].concat(req.query.id);
+    ids.forEach((idString, index) => {
+      const id = Number.parseInt(idString, 10);
+      const todo = idMap[id];
+      if (index === 0) {
+        notFound = !todo;
+      } else {
+        notFound = notFound && !todo;
+      }
+      if (todo) {
+        Object.keys(patchObj).forEach(key => {
+          if (key !== 'id') {
+            todo[key] = patchObj[key];
+          }
+        });
+      }
+    });
+    if (notFound) {
+      status = 404;
+      body.message = 'Not found'
+    } else {
+      status = 200;
+      body = todos;
+    }
   }
-  res.status(status).json({ message });
+  res.status(status).json(body);
 });
 
 app.get('*', function(req, res) {
