@@ -47,7 +47,7 @@ const Todo = ({ filtered, isArchive, onClickArchive, onClickDelete, onClickTodo,
   return (
     <li className={todoCls}>
       <TodoLink text={text} onClick={onClickTodo} />
-      {isComplete && (
+      {isComplete && !isArchive && (
         <Button
           extraClass="button--archive"
           text="Archive"
