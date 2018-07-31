@@ -14,12 +14,6 @@ var todos = [
   {"id": 2, "text": "Pick up groceries", "status": "complete"}
 ];
 
-app.get('/', function(req, res) {
-  var bundle = `//${req.hostname}:8080/public/bundle.js`;
-
-  res.render('index', {bundle});
-});
-
 app.get('/todos', function(req, res) {
   res.json(todos);
 });
@@ -132,6 +126,12 @@ app.patch('/todos?id', function(req, res) {
     status = 204;
   }
   res.status(status).json({ message });
+});
+
+app.get('*', function(req, res) {
+  var bundle = `//${req.hostname}:8080/public/bundle.js`;
+
+  res.render('index', {bundle});
 });
 
 // Node server.

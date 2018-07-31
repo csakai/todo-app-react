@@ -24,7 +24,7 @@ class TodosPage extends React.Component {
    * @static
    */
   static propTypes = {
-    params: React.PropTypes.object,
+    filterBy: React.PropTypes.string,
   };
 
   /**
@@ -37,13 +37,11 @@ class TodosPage extends React.Component {
     super(props);
 
     this.state = {
-      todos: [],
-      filterBy: props.params.filter,
+      todos: []
     };
 
     this.addTodo = this.addTodo.bind(this);
     this.postTodo = this.postTodo.bind(this);
-    this.setFilterBy = this.setFilterBy.bind(this);
     this.updateTodos = this.updateTodos.bind(this);
   }
 
@@ -79,15 +77,6 @@ class TodosPage extends React.Component {
   }
 
   /**
-   * Set filterBy state
-   *
-   * @param {string} filterBy - filterBy state
-   */
-  setFilterBy(filterBy) {
-    this.setState({ filterBy });
-  }
-
-  /**
    * Update todos array state
    *
    * @param  {Array} todos - Array of todo objects
@@ -101,14 +90,15 @@ class TodosPage extends React.Component {
    * @returns {ReactElement}
    */
   render() {
+    const { filterBy = 'all' } = this.props;
     return (
       <div className={this.baseCls}>
-        <Navbar filterBy={this.state.filterBy} onClickFilter={this.setFilterBy} />
+        <Navbar />
 
         <TodoForm onSubmit={this.addTodo} />
 
         <Todos
-          filterBy={this.state.filterBy}
+          filterBy={filterBy}
           todos={this.state.todos}
           updateTodos={this.updateTodos}
         />

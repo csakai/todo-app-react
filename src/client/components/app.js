@@ -1,5 +1,6 @@
 import React from 'react';
 
+import TodosPage from './todos-page';
 import Header from './header';
 
 /**
@@ -11,13 +12,16 @@ const propTypes = {
     React.PropTypes.arrayOf(React.PropTypes.node),
     React.PropTypes.node
   ]),
+  params: React.PropTypes.shape({
+    filter: React.PropTypes.string
+  }),
 };
 
 /**
  * App component
  * @returns {ReactElement}
  */
-const App = ({ children }) => {
+const App = ({ params: { filter } }) => {
   /**
    * Base CSS class
    */
@@ -27,7 +31,7 @@ const App = ({ children }) => {
     <div className={baseCls}>
       <Header />
 
-      {children}
+      <TodosPage filterBy={filter} />
     </div>
   );
 };
