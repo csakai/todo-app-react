@@ -17,6 +17,9 @@ const Navbar = ({onClickArchiveAll, onClickCompleteAll}) => {
    * Base CSS class
    */
   const baseCls = 'navbar'
+  const leftCls = `${baseCls}__left`;
+  const rightCls = `${baseCls}__right`;
+
 
   const filterItemBaseCls = `${baseCls}__item`;
 
@@ -26,34 +29,38 @@ const Navbar = ({onClickArchiveAll, onClickCompleteAll}) => {
 
   return (
     <div className={baseCls}>
-      {['all', 'active', 'completed', 'archived'].map(filter => {
-        const filterFragment = `/${'all' === filter ? '' : filter}`;
-        return (
-          <Link
-            to={filterFragment}
-            className={filterItemBaseCls}
-            activeClassName={filterItemActiveCls}
-            key={`filter-${filter}`}
-          >
+      <div className={leftCls}>
+        {['all', 'active', 'completed', 'archived'].map(filter => {
+          const filterFragment = `/${'all' === filter ? '' : filter}`;
+          return (
+            <Link
+              to={filterFragment}
+              className={filterItemBaseCls}
+              activeClassName={filterItemActiveCls}
+              key={`filter-${filter}`}
+            >
               <div>
                 {filter.replace(/^\w/, match => match.toUpperCase())}
               </div>
-          </Link>
-        )
-      })}
-      <div className={buttonItemBaseCls}>
-        <Button
-          text="Complete all Active"
-          onClick={onClickCompleteAll}
-          extraClass="button--modify"
-        />
+            </Link>
+          )
+        })}
       </div>
-      <div className={buttonItemBaseCls}>
-        <Button
-          text="Archive all Completed"
-          onClick={onClickArchiveAll}
-          extraClass="button--modify"
-        />
+      <div className={rightCls}>
+        <div className={buttonItemBaseCls}>
+          <Button
+            text="Complete all Active"
+            onClick={onClickCompleteAll}
+            extraClass="button--modify"
+          />
+        </div>
+        <div className={buttonItemBaseCls}>
+          <Button
+            text="Archive all Completed"
+            onClick={onClickArchiveAll}
+            extraClass="button--modify"
+          />
+        </div>
       </div>
     </div>
   );

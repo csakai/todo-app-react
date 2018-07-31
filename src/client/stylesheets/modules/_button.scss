@@ -1,0 +1,10 @@
+.button {
+    border: none;
+    cursor: pointer;
+    &--modify {
+        background-color: map-get($colors, ui-modify-bg);
+        color: map-get($colors, ui-light);
+        border-radius: 5px;
+        padding: 5px;
+    }
+}

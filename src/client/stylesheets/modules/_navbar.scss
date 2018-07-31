@@ -6,6 +6,17 @@
     justify-content: space-between;
     background-color: map-get($colors, lightgray);
     padding: 0 10px;
+    &__left, &__right {
+        display: flex;
+    }
+    &__left {
+        justify-content: flex-start;
+        align-items: stretch;
+    }
+    &__right {
+        justify-content: flex-end;
+        align-items: center;
+    }
     &__item {
         display: flex;
         flex-direction: column;
