@@ -43,6 +43,8 @@ class TodosPage extends React.Component {
     this.addTodo = this.addTodo.bind(this);
     this.postTodo = this.postTodo.bind(this);
     this.updateTodos = this.updateTodos.bind(this);
+    this.onClickCompleteAll = this.onClickCompleteAll.bind(this);
+    this.onClickArchiveAll = this.onClickArchiveAll.bind(this);
   }
 
   /**
@@ -51,7 +53,38 @@ class TodosPage extends React.Component {
   componentDidMount() {
     api('GET', null, this.updateTodos);
   }
-
+  /**
+   * Mark all active todos as complete
+   *
+   */
+  onClickCompleteAll() {
+    const id = this.state.todos.reduce((acc, todo) => {
+      if (todo.status !== 'complete') {
+        return [...acc, todo.id];
+      }
+      return acc;
+    }, []);
+    api('PATCH', {
+      id,
+      status: 'complete'
+    }, this.updateTodos);
+  }
+  /**
+   * Archive all completed todos
+   *
+   */
+  onClickArchiveAll() {
+    const id = this.state.todos.reduce((acc, todo) => {
+      if (todo.status === 'complete') {
+        return [...acc, todo.id];
+      }
+      return acc;
+    }, []);
+    api('PATCH', {
+      id,
+      archive: true
+    }, this.updateTodos);
+  }
   /**
    * Add todo
    *
@@ -93,7 +126,10 @@ class TodosPage extends React.Component {
     const { filterBy = 'all' } = this.props;
     return (
       <div className={this.baseCls}>
-        <Navbar />
+        <Navbar
+          onClickArchiveAll={this.onClickArchiveAll}
+          onClickCompleteAll={this.onClickCompleteAll}
+        />
 
         <TodoForm onSubmit={this.addTodo} />
 
