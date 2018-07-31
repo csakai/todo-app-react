@@ -16,7 +16,8 @@ const Navbar = ({onClickArchiveAll, onClickCompleteAll}) => {
   /**
    * Base CSS class
    */
-  const baseCls = 'navbar'
+  const baseCls = 'container--navbar'
+  const containerCls = `container ${baseCls}`
   const leftCls = `${baseCls}__left`;
   const rightCls = `${baseCls}__right`;
 
@@ -28,7 +29,7 @@ const Navbar = ({onClickArchiveAll, onClickCompleteAll}) => {
   const filterItemActiveCls = `${filterItemBaseCls}--active`;
 
   return (
-    <div className={baseCls}>
+    <div className={containerCls}>
       <div className={leftCls}>
         {['all', 'active', 'completed', 'archived'].map(filter => {
           const filterFragment = `/${'all' === filter ? '' : filter}`;

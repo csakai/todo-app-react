@@ -1,3 +1,5 @@
 // App module.
 .app {
+    width: 100%;
+    background-color: map-get($colors, ui-light);
 }

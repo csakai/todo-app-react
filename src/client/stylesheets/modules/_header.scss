@@ -1,5 +1,16 @@
 // Header module
-.header {
+.container--header {
   background-color: map-get($colors, primary);
   height: 76px;
+  display: flex;
+  align-items: stretch;
+  &__header {
+    font-weight: normal;
+    &--link {
+        text-decoration: none;
+        &, &:active, &:focus, &:visited {
+            color: map-get($colors, ui-light);
+        }
+    }
+  }
 }

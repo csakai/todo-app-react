@@ -8,13 +8,9 @@ import Header from './header';
  * @private
  */
 const propTypes = {
-  children: React.PropTypes.oneOfType([
-    React.PropTypes.arrayOf(React.PropTypes.node),
-    React.PropTypes.node
-  ]),
   params: React.PropTypes.shape({
     filter: React.PropTypes.string
-  }),
+  })
 };
 
 /**
