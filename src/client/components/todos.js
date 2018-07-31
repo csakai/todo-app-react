@@ -80,7 +80,7 @@ const Todos = ({ filterBy, todos, updateTodos }) => {
    */
   const onClickArchive = todo => {
     const newTodo = Object.assign({}, todo);
-    newTodo.archive = true;
+    newTodo.archive = !todo.archive;
     api('PUT', newTodo, putTodo);
   }
   /**

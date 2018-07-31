@@ -47,10 +47,10 @@ const Todo = ({ filtered, isArchive, onClickArchive, onClickDelete, onClickTodo,
   return (
     <li className={todoCls}>
       <TodoLink text={text} onClick={onClickTodo} />
-      {isComplete && !isArchive && (
+      {isComplete && (
         <Button
-          extraClass="button--archive"
-          text="Archive"
+          extraClass={isArchive ? 'button--unarchive' : 'button--archive'}
+          text={isArchive ? 'Unarchive' : 'Archive'}
           onClick={onClickArchive}
         />
       )}
