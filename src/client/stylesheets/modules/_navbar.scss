@@ -1,9 +1,26 @@
 // Navbar module
 .navbar {
-  &__item {
-    text-decoration: none;
-    &--active {
-        font-weight: 700;
+    height: 38px;
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    background-color: map-get($colors, lightgray);
+    padding: 0 10px;
+    &__item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding: 10px;
+        text-decoration: none;
+        &--button {
+            padding: 0;
+            margin-left: 10px;
+        }
+        &, &:active, &:focus, &:visited {
+            color: map-get($colors, darkgray);
+        }
+        &--active {
+            font-weight: 700;
+        }
     }
-  }
 }

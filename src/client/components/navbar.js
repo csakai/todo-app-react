@@ -35,7 +35,9 @@ const Navbar = ({onClickArchiveAll, onClickCompleteAll}) => {
             activeClassName={filterItemActiveCls}
             key={`filter-${filter}`}
           >
-            {filter.replace(/^\w/, match => match.toUpperCase())}
+              <div>
+                {filter.replace(/^\w/, match => match.toUpperCase())}
+              </div>
           </Link>
         )
       })}
