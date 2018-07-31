@@ -73,6 +73,17 @@ const Todos = ({ filterBy, todos, updateTodos }) => {
   }
 
   /**
+   * Click handler for clicking on archive button
+   * Archives todo - must be complete
+   *
+   * @param {object} todo - Todo object
+   */
+  const onClickArchive = todo => {
+    const newTodo = Object.assign({}, todo);
+    newTodo.archive = true;
+    api('PUT', newTodo, putTodo);
+  }
+  /**
    * Click handler for clicking on delete button
    * Deletes todo
    *
@@ -109,7 +120,10 @@ const Todos = ({ filterBy, todos, updateTodos }) => {
           filtered = todo.status === 'complete';
           break;
         case 'completed':
-          filtered = todo.status !== 'complete';
+          filtered = todo.status !== 'complete' && !todo.archive;
+          break;
+        case 'archived':
+          filtered = !todo.archive;
           break;
         default:
           filtered = false;
@@ -119,10 +133,12 @@ const Todos = ({ filterBy, todos, updateTodos }) => {
         <Todo
           key={todo.id}
           filtered={filtered}
+          onClickArchive={onClickArchive.bind(this, todo)}
           onClickDelete={onClickDelete.bind(this, todo)}
           onClickTodo={onClickTodo.bind(this, todo)}
           status={todo.status}
           text={todo.text}
+          isArchive={todo.archive}
         />
       );
     })

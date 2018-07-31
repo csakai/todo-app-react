@@ -1,3 +1,4 @@
+const querystring = require('querystring');
 /**
 * Fetches to the backend and directs results to proper function for processing
 *
@@ -29,6 +30,8 @@ export function getApiPromise(method, data) {
   let url = 'http://localhost:3000/todos';
   if (['DELETE', 'PUT'].indexOf(method) !== -1) {
     url += `/${data.id}`;
+  } else if ('PATCH' === method) {
+    url = `url?${querystring.encode({ id: data.id })}`;
   }
 
   const options = {

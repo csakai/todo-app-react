@@ -21,11 +21,11 @@ app.get('/', function(req, res) {
 });
 
 app.get('/todos', function(req, res) {
-  res.json(JSON.stringify(todos));
+  res.json(todos);
 });
 
 app.get('/todos/:id', function(req, res) {
-  var id = req.params.id;
+  const id = Number.parseInt(req.params.id, 10);
   var index = todos.findIndex(function(todo) {
     return todo.id === id;
   });
@@ -58,32 +58,45 @@ app.post('/todos', function(req, res) {
 });
 
 app.delete('/todos/:id', function(req, res) {
-  const todoIndex = todos.findIndex(({id}) => id === req.params.id);
+  const id = Number.parseInt(req.params.id, 10);
+  const todoIndex = todos.findIndex(({id: todoId}) => id === todoId);
   if (todoIndex > -1) {
     todos.splice(todoIndex, 1);
   }
-    return res.status(204).send()
+  return res.status(200).json({id})
 });
 
-app.patch('/todos/:id', function(req, res) {
-  const todoIndex = todos.findIndex(({id}) => id === req.params.id);
+app.put('/todos/:id', function(req, res) {
+  const id = Number.parseInt(req.params.id, 10);
+  const todoIndex = todos.findIndex(({id: todoId}) => todoId === id);
   if (todoIndex > -1) {
     const todo = todos[todoIndex];
     let status;
     let message;
-    if (req.body.archived) {
-      if (todo.status === 'completed') {
-        todo.archived = true;
-        status = 204;
+    const newTodo = req.body.data;
+    if (newTodo.archive) {
+      if (todo.status === 'complete') {
+        todos[todoIndex] = {
+          ...newTodo,
+          id
+        };
+        status = 200;
+        body = todos[todoIndex];
       }  else {
         status = 400;
-        message = 'Cannot archive an active Todo';
+        body = {
+          message: 'Cannot archive an active Todo'
+        };
       }
-    } else if (req.body.status === 'active' || req.body.status === 'complete') {
-      todo.status = req.body.status;
-      status = 204;
+    } else {
+      todos[todoIndex] = {
+        ...newTodo,
+        id
+      }
+      status = 200;
+      body = todos[todoIndex];
     }
-    res.status(status).json({ message });
+    res.status(status).json(body);
   }
 });
 
@@ -92,8 +105,10 @@ app.patch('/todos?id', function(req, res) {
     ...acc,
     [todo.id]: todo
   }), {});
+  const patchObj = req.body.data;
   let notFound = false;
-  req.query.id.forEach((id, index) => {
+  req.query.id.forEach((idString, index) => {
+    const id = Number.parseInt(idString, 10);
     const todo = idMap[id];
     if (index === 0) {
       notFound = !todo;
@@ -101,7 +116,11 @@ app.patch('/todos?id', function(req, res) {
       notFound = notFound && !todo;
     }
     if (todo) {
-      todo.status = 'complete';
+      Object.keys(patchObj).forEach(key => {
+        if (key !== 'id') {
+          todo[key] = patchObj[key];
+        }
+      });
     }
   });
   let status;
