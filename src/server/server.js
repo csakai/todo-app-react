@@ -140,7 +140,7 @@ app.patch('/todos', function(req, res) {
 app.use('/images', express.static(path.resolve(__dirname, '../client/images')));
 app.get('*', function(req, res) {
   let bundle = '/public/bundle.js';
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV !== 'production') {
     const devUrl = `//${req.hostname}:8080`;
     bundle = `${devUrl}${bundle}`;
   }
