@@ -2,9 +2,10 @@
     border: none;
     cursor: pointer;
     &--modify {
+        font-size: 14px;
         background-color: map-get($colors, ui-modify-bg);
         color: map-get($colors, ui-light);
         border-radius: 5px;
-        padding: 5px;
+        padding: 5px 20px;
     }
 }

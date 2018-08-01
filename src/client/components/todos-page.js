@@ -37,12 +37,15 @@ class TodosPage extends React.Component {
     super(props);
 
     this.state = {
-      todos: []
+      btnDisabled: false,
+      todos: [],
+      tasksRemaining: 0
     };
 
     this.addTodo = this.addTodo.bind(this);
     this.postTodo = this.postTodo.bind(this);
     this.updateTodos = this.updateTodos.bind(this);
+    this._onCallPatch = this._onCallPatch.bind(this);
     this.onClickCompleteAll = this.onClickCompleteAll.bind(this);
     this.onClickArchiveAll = this.onClickArchiveAll.bind(this);
   }
@@ -54,36 +57,54 @@ class TodosPage extends React.Component {
     api('GET', null, this.updateTodos);
   }
   /**
-   * Mark all active todos as complete
-   *
+   * Generic method for calling patch and disabling/enabling buttons
    */
-  onClickCompleteAll() {
+  _onCallPatch(condition, patchObj) {
+    if (this.state.btnDisabled) {
+      return;
+    }
+    this.setState(prevState => ({
+      ...prevState,
+      btnDisabled: true
+    }));
+    const cb = data => {
+      this.updateTodos(data);
+      this.setState(prevState => ({
+        ...prevState,
+        btnDisabled: false
+      }));
+    };
     const id = this.state.todos.reduce((acc, todo) => {
-      if (todo.status !== 'complete') {
+      if (condition(todo.status)) {
         return [...acc, todo.id];
       }
       return acc;
     }, []);
     api('PATCH', {
       id,
-      status: 'complete'
-    }, this.updateTodos);
+      ...patchObj
+    }, cb);
+  }
+  /**
+   * Mark all active todos as complete
+   *
+   */
+  onClickCompleteAll(event) {
+    event.preventDefault();
+    this._onCallPatch(
+      status => status !== 'complete',
+      { status: 'complete' }
+    );
   }
   /**
    * Archive all completed todos
    *
    */
   onClickArchiveAll() {
-    const id = this.state.todos.reduce((acc, todo) => {
-      if (todo.status === 'complete') {
-        return [...acc, todo.id];
-      }
-      return acc;
-    }, []);
-    api('PATCH', {
-      id,
-      archive: true
-    }, this.updateTodos);
+    this._onCallPatch(
+      status => status === 'complete',
+      { archive: true }
+    );
   }
   /**
    * Add todo
@@ -104,9 +125,8 @@ class TodosPage extends React.Component {
    * @param  {object} json - Resulting JSON from fetch
    */
   postTodo(json) {
-    this.setState({
-      todos: [...json],
-    });
+    const todos = [...json];
+    this.updateTodos(todos);
   }
 
   /**
@@ -115,7 +135,16 @@ class TodosPage extends React.Component {
    * @param  {Array} todos - Array of todo objects
    */
   updateTodos(todos) {
-    this.setState({ todos });
+    const tasksRemaining = todos.reduce((acc, {status}) => {
+      if (status !== 'complete') {
+        return 1 + acc;
+      }
+      return acc;
+    }, 0);
+    this.setState({
+      todos,
+      tasksRemaining
+    });
   }
 
   /**
@@ -128,11 +157,22 @@ class TodosPage extends React.Component {
       <div className={this.baseCls}>
         <Navbar
           onClickArchiveAll={this.onClickArchiveAll}
-          onClickCompleteAll={this.onClickCompleteAll}
         />
 
         <TodoForm onSubmit={this.addTodo} />
 
+        <div className="container">
+          <h3 className="remaining-header">
+            {`${this.state.tasksRemaining} tasks remaining`}
+          </h3>
+          <a
+            href="#"
+            onClick={this.onClickCompleteAll}
+            className="remaining-link"
+          >
+            Complete All
+          </a>
+        </div>
         <Todos
           filterBy={filterBy}
           todos={this.state.todos}

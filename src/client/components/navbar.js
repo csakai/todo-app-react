@@ -4,8 +4,7 @@ import { Link } from 'react-router';
 import Button from './button';
 
 const propTypes = {
-  onClickArchiveAll: React.PropTypes.func,
-  onClickCompleteAll: React.PropTypes.func,
+  onClickArchiveAll: React.PropTypes.func
 };
 
 /**
@@ -48,13 +47,6 @@ const Navbar = ({onClickArchiveAll, onClickCompleteAll}) => {
         })}
       </div>
       <div className={rightCls}>
-        <div className={buttonItemBaseCls}>
-          <Button
-            text="Complete all Active"
-            onClick={onClickCompleteAll}
-            extraClass="button--modify"
-          />
-        </div>
         <div className={buttonItemBaseCls}>
           <Button
             text="Archive all Completed"
