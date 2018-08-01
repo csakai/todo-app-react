@@ -145,13 +145,15 @@ app.get('*', function(req, res) {
 });
 
 // Node server.
-var port = 3000;
+var port = process.env.PORT || 3000;
 var server = app.listen(port, function() {
   console.log('SERVER STARTED LISTENING ON PORT ' + port);
 });
 
 // Dev server.
-var devServer = require('../../tools/development-server');
-var devPort = 8080;
+if (process.env.NODE_ENV !== 'production') {
+  var devServer = require('../../tools/development-server');
+  var devPort = 8080;
 
-devServer.listen(devPort, '0.0.0.0', () => {});
+  devServer.listen(devPort, '0.0.0.0', () => {});
+}
