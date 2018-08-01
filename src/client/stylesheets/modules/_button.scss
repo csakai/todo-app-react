@@ -1,6 +1,14 @@
 .button {
     border: none;
     cursor: pointer;
+    &--remove {
+        font-size: 24px;
+        color: map-get($colors, gray);
+        background: none;
+        &, &:active, &:focus {
+            outline: none;
+        }
+    }
     &--modify {
         font-size: 14px;
         background-color: map-get($colors, ui-modify-bg);

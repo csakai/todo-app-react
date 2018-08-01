@@ -159,9 +159,7 @@ class TodosPage extends React.Component {
           onClickArchiveAll={this.onClickArchiveAll}
         />
 
-        <TodoForm onSubmit={this.addTodo} />
-
-        <div className="container">
+        <div className="container container--remaining">
           <h3 className="remaining-header">
             {`${this.state.tasksRemaining} tasks remaining`}
           </h3>
@@ -173,6 +171,8 @@ class TodosPage extends React.Component {
             Complete All
           </a>
         </div>
+
+        <TodoForm onSubmit={this.addTodo} />
         <Todos
           filterBy={filterBy}
           todos={this.state.todos}

@@ -37,25 +37,34 @@ const Todo = ({ filtered, isArchive, onClickArchive, onClickDelete, onClickTodo,
   /**
    * Base CSS class
    */
-  const baseCls = 'todo';
+  const baseCls = 'container--todo';
   const isComplete = status === 'complete';
 
-  const todoCls = baseCls
-    + (isComplete ? ' todo--status-complete' : '')
-    + (filtered ? ' todo--filtered' : '');
+  const todoContainerCls = `container ${baseCls} ${filtered ? ' container--todo-filtered' : ''}`;
 
   return (
-    <li className={todoCls}>
-      <TodoLink text={text} onClick={onClickTodo} />
-      {isComplete && (
-        <Button
-          extraClass="button--modify"
-          text={isArchive ? 'Unarchive' : 'Archive'}
-          onClick={onClickArchive}
+    <li className={todoContainerCls}>
+      <div className={`${baseCls}__left`}>
+        <TodoLink
+          text={text}
+          isComplete={isComplete}
+          onClick={onClickTodo}
         />
-      )}
-
-      <Button text="Delete" onClick={onClickDelete} />
+        {isComplete && (
+          <Button
+            extraClass="button--modify"
+            text={isArchive ? 'Unarchive' : 'Archive'}
+            onClick={onClickArchive}
+          />
+        )}
+      </div>
+      <div className={`${baseCls}__right`}>
+        <Button
+          extraClass="button--remove"
+          text="X"
+          onClick={onClickDelete}
+        />
+      </div>
     </li>
   );
 }

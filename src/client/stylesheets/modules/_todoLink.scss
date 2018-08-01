@@ -1,0 +1,30 @@
+.todo__wrapper {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    &__checkbox-wrapper {
+        width: 60px;
+        margin-right: 10px;
+        display: flex;
+        justify-content: center;
+        &__checkbox {
+            height: 40px;
+            width: 40px;
+            background-image: url('/images/checkbox-unchecked.png');
+            background-position: center;
+            background-size: contain;
+            &--status-complete {
+                background-image: url('/images/checkbox-checked.png');
+            }
+        }
+    }
+    &__link {
+        color: map-get($colors, darkgray);
+        margin-right: 10px;
+        font-size: 24px;
+        &--status-complete {
+            color: map-get($colors, gray);
+            text-decoration: line-through;
+        }
+    }
+}

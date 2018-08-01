@@ -33,7 +33,9 @@ const Todos = ({ filterBy, todos, updateTodos }) => {
   /**
    * Base CSS class
    */
-  const baseCls = 'todos';
+  const baseCls = 'container--todo-list';
+
+  const containerBaseCls = `container ${baseCls}`;
 
   /**
    * Callback function to delete todo from todos collection
@@ -113,35 +115,39 @@ const Todos = ({ filterBy, todos, updateTodos }) => {
    * @returns {Array} - Returns an array of Todo React Elements
    */
   const renderTodos = () => {
-    return todos.map(todo => {
-      let filtered;
-      switch (filterBy) {
-        case 'active':
-          filtered = todo.status === 'complete';
-          break;
-        case 'completed':
-          filtered = todo.status !== 'complete' || todo.archive;
-          break;
-        case 'archived':
-          filtered = !todo.archive;
-          break;
-        default:
-          filtered = todo.archive;
-      }
+    return (
+      <ul className={containerBaseCls}>
+        {todos.map(todo => {
+          let filtered;
+          switch (filterBy) {
+            case 'active':
+              filtered = todo.status === 'complete';
+              break;
+            case 'completed':
+              filtered = todo.status !== 'complete' || todo.archive;
+              break;
+            case 'archived':
+              filtered = !todo.archive;
+              break;
+            default:
+              filtered = todo.archive;
+          }
 
-      return (
-        <Todo
-          key={todo.id}
-          filtered={filtered}
-          onClickArchive={onClickArchive.bind(this, todo)}
-          onClickDelete={onClickDelete.bind(this, todo)}
-          onClickTodo={onClickTodo.bind(this, todo)}
-          status={todo.status}
-          text={todo.text}
-          isArchive={todo.archive}
-        />
-      );
-    })
+          return (
+            <Todo
+              key={todo.id}
+              filtered={filtered}
+              onClickArchive={onClickArchive.bind(this, todo)}
+              onClickDelete={onClickDelete.bind(this, todo)}
+              onClickTodo={onClickTodo.bind(this, todo)}
+              status={todo.status}
+              text={todo.text}
+              isArchive={todo.archive}
+            />
+          );
+        })}
+      </ul>
+    );
   }
 
   return (

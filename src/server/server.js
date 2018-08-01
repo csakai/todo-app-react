@@ -14,6 +14,7 @@ var todos = [
   {"id": 2, "text": "Pick up groceries", "status": "complete"}
 ];
 
+let nextId = todos.length + 1;
 app.get('/todos', function(req, res) {
   res.json(todos);
 });
@@ -44,7 +45,8 @@ app.post('/todos', function(req, res) {
     return res.status(400).json({"message": "text is required"});
   }
 
-  var id = todos.length + 1;
+  var id = nextId;
+  nextId++;
   var newTodo = { "id": id, "text": text, "status": "active" };
   todos.push(newTodo);
 
@@ -135,6 +137,7 @@ app.patch('/todos', function(req, res) {
   res.status(status).json(body);
 });
 
+app.use('/images', express.static(path.resolve(__dirname, '../client/images')));
 app.get('*', function(req, res) {
   var bundle = `//${req.hostname}:8080/public/bundle.js`;
 

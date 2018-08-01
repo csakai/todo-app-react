@@ -1,12 +1,24 @@
 // Todo module.
-.todo {
-  cursor: pointer;
+.container--todo {
+    display: flex;
+    border-bottom: 1px solid map-get($colors, lightgray);
+    padding: 20px 0;
+    justify-content: space-between;
 
-  &--status-complete {
-    text-decoration: line-through;
-  }
+    &__left, &__right {
+        display: flex;
+        align-items: center;
+    }
+    &__left {
+        justify-content: flex-start;
+    }
+    &__right {
+        width: 60px;
+        justify-content: center;
+    }
 
-  &--filtered {
-    display: none;
-  }
+
+    &-filtered {
+        display: none;
+    }
 }

@@ -1,0 +1,17 @@
+.container--remaining {
+    display: flex;
+    align-items: baseline;
+}
+.remaining {
+    &-header {
+        margin-right: 10px;
+        color: map-get($colors, darkgray);
+        font-weight: normal;
+    }
+    &-link {
+        text-decoration: none;
+        &, &:active, &:focus, &:visited {
+            color: map-get($colors, primary);
+        }
+    }
+}

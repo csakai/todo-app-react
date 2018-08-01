@@ -1,0 +1,20 @@
+.container--todo-form {
+    display: flex;
+    justify-content: center;
+    &__form {
+       width: 410px;
+       &__input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 20px;
+            color: map-get($colors, darkgray);
+            &::placeholder {
+                color: map-get($colors, gray);
+            }
+            &, &:active, &:focus{
+                outline: none;
+            }
+       }
+    }
+}

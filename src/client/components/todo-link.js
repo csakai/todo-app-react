@@ -7,6 +7,7 @@ const noop = () => {};
  * @private
  */
 const propTypes = {
+  isComplete: React.PropTypes.bool,
   onClick: React.PropTypes.func,
   text: React.PropTypes.string,
 };
@@ -16,6 +17,7 @@ const propTypes = {
  * @private
  */
 const defaultProps = {
+  isComplete: false,
   onClick: noop,
   text: '',
 };
@@ -24,15 +26,35 @@ const defaultProps = {
  * Link component
  * @returns {ReactElement}
  */
-const TodoLink = ({ text, onClick }) => {
+const TodoLink = ({ isComplete, text, onClick }) => {
   /**
    * Base CSS class
    */
-  const baseCls = 'todo-link';
+  const baseCls = 'todo__wrapper';
+
+  const checkboxWrapperCls = `${baseCls}__checkbox-wrapper`;
+
+  const checkboxBaseCls = `${checkboxWrapperCls}__checkbox`;
+
+  const checkboxCompleteCls = ` ${checkboxBaseCls}--status-complete`;
+
+  const checkboxCls = `${checkboxBaseCls}${isComplete ? checkboxCompleteCls : ''}`;
+
+  const linkCls = `${baseCls}__link`;
+
+  const completeCls = ` ${linkCls}--status-complete`;
+
+  const cls = `${linkCls}${isComplete ? completeCls : ''}`;
 
   return (
     <div className={baseCls} onClick={onClick}>
-      {text}
+      <div className={checkboxWrapperCls}>
+        <div className={checkboxCls}>
+        </div>
+      </div>
+      <div className={cls}>
+        {text}
+      </div>
     </div>
   );
 };

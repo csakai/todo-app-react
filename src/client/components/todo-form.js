@@ -65,14 +65,23 @@ class TodoForm extends React.Component {
    * @returns {ReactElement}
    */
   render() {
+    const baseCls = 'container--todo-form';
+    const containerCls = `container ${baseCls}`;
+    const formContainerCls = `${baseCls}__form`;
+    const inputCls = `${formContainerCls}__input`;
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          onChange={this.onChange}
-          placeholder="Add new todo..."
-          value={this.state.input}
-        />
-      </form>
+      <div className={containerCls}>
+        <div className={formContainerCls}>
+          <form onSubmit={this.onSubmit}>
+            <input
+              className={inputCls}
+              onChange={this.onChange}
+              placeholder="Add new todo..."
+              value={this.state.input}
+            />
+          </form>
+        </div>
+      </div>
     );
   }
 }
