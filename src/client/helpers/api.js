@@ -27,7 +27,7 @@ export function api(method, data, cb) {
  * @returns {promise} - Promise from the fetch request to the backend
  */
 export function getApiPromise(method, data) {
-  let url = 'http://localhost:3000/todos';
+  let url = '/todos';
   if (['DELETE', 'PUT'].indexOf(method) !== -1) {
     url = `${url}/${data.id}`;
   } else if ('PATCH' === method) {
