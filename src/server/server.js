@@ -137,10 +137,11 @@ app.patch('/todos', function(req, res) {
   res.status(status).json(body);
 });
 
+const bundleURL = '/public/bundle.js';
+const devUrl = `//${req.hostname}:8080`;
+const bundle = `${process.env.NODE_ENV === 'production' ? '' : devUrl}${bundleUrl}`
 app.use('/images', express.static(path.resolve(__dirname, '../client/images')));
 app.get('*', function(req, res) {
-  var bundle = `//${req.hostname}:8080/public/bundle.js`;
-
   res.render('index', {bundle});
 });
 
