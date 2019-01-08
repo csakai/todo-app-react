@@ -42,9 +42,22 @@ const Todos = ({ filterBy, todos, updateTodos }) => {
    *
    * @param  {object} json - Resulting JSON from fetch
    */
-  const deleteTodo = json => {
+  // const deleteTodo = json => {
+  //   const index = todos.findIndex(todo => {
+  //     return todo.id === json.id;
+  //   });
+
+  //   updateTodos(
+  //     [
+  //       ...todos.slice(0, index),
+  //       ...todos.slice(index + 1),
+  //     ]
+  //   );
+  // }
+
+  const deleteTodo = id => () => {
     const index = todos.findIndex(todo => {
-      return todo.id === json.id;
+      return todo.id === id;
     });
 
     updateTodos(
@@ -92,7 +105,7 @@ const Todos = ({ filterBy, todos, updateTodos }) => {
    * @param {object} todo - Todo object
    */
   const onClickDelete = todo => {
-    api('DELETE', todo, deleteTodo);
+    api('DELETE', todo, deleteTodo(todo.id));
   };
 
   /**

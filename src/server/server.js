@@ -59,7 +59,8 @@ app.delete('/todos/:id', function(req, res) {
   if (todoIndex > -1) {
     todos.splice(todoIndex, 1);
   }
-  return res.status(200).json({id})
+  return res.status(204).send();
+  // return res.status(200).json({id})
 });
 
 app.put('/todos/:id', function(req, res) {

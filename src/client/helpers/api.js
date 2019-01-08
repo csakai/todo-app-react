@@ -13,6 +13,8 @@ export function api(method, data, cb) {
     if (typeof cb === 'function') {
       cb(json);
     }
+
+    console.log('json', json);
   })
   .catch(err => {
     console.log('error:', err);
@@ -53,7 +55,9 @@ export function getApiPromise(method, data) {
     if (response.status >= 400) {
       return response.json().then(err => Promise.reject(err.message));
     }
-
+    if (response.status === 204) {
+      return;
+    }
     return response.json();
   })
 };
